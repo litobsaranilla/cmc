@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personalized Greeting Card</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .greeting-card {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            background: url('your-design-image.jpg') no-repeat center center/cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-radius: 10px;
+            margin-top: 20px;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        #employeeName {
+            position: absolute;
+        }
+        #nameInput {
+            width: 80%;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+        .btn {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            color: white;
+        }
+        .btn-primary {
+            background-color: #007bff;
+        }
+        .btn-success {
+            background-color: #28a745;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Personalized Greeting Card</h2>
+        <input type="text" id="nameInput" placeholder="Enter your name" oninput="updateCard()">
+        
+        <div id="cardContainer">
+            <div class="greeting-card" id="greetingCard">
+                <span id="employeeName">Your Name Here</span>
+            </div>
+        </div>
+
+        <button class="btn btn-primary" onclick="downloadImage()">Download as Image</button>
+        <button class="btn btn-success" onclick="printCard()">Print Card</button>
+    </div>
+
+    <script>
+        function updateCard() {
+            let name = document.getElementById("nameInput").value;
+            document.getElementById("employeeName").innerText = name || "Your Name Here";
+        }
+
+        function downloadImage() {
+            html2canvas(document.getElementById("greetingCard")).then(canvas => {
+                let link = document.createElement("a");
+                link.href = canvas.toDataURL("image/png");
+                link.download = "greeting_card.png";
+                link.click();
+            });
+        }
+
+        function printCard() {
+            let printWindow = window.open('', '_blank');
+            printWindow.document.write('<html><head><title>Print Card</title></head><body>');
+            printWindow.document.write('<img src="' + document.getElementById("greetingCard").toDataURL("image/png") + '"/>');
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.print();
+        }
+    </script>
+
+</body>
+</html>
